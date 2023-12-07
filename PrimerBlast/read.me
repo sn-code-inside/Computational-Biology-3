@@ -1,0 +1,55 @@
+
+sudo apt-get install -y ncbi-entrez-direct
+
+sudo apt install -y ncbi-blast+
+
+efetch -db nuccore -id NC\_000003 -format fasta > hs-chr3.fasta
+
+https://strbase-archive.nist.gov/str_D3S1358.htm
+
+$ efetch -db nuccore -id NC_000003 -format fasta > hs-chr3.fasta
+$ ls
+D3S1358.primers   hs-chr3.fasta
+$ less hs-chr3.fasta 
+
+$ cat D3S1358.primers 
+>f-primer
+ACTGCAGTCCAATCTGGGT
+>r-primer
+ATGAAATCAACAGAGGCTTG
+
+$ egrep --color 'ACTGCAGTCCAATCTGGGT' hs-chr3.fasta 
+ACAATAAACCATGATCATTCCACTGCAGTCCAATCTGGGTGACAGACTGAGACCCTGTCTCAAATAAATA
+
+$ egrep --color 'ATGAAATCAACAGAGGCTTG' hs-chr3.fasta 
+TGGTGTGTATTCCCTGTGCCTTTGGGGGCATCTCTTATACTCATGAAATCAACAGAGGCTTGCATGTATC
+
+$ makeblastdb -in hs-chr3.fasta -dbtype nucl -out hsc3
+
+$ time blastn -query D3S1358.primers -db hsc3 -out d3s1358-vs-chr3.txt
+
+$ less d3s1358-vs-chr3.txt # take a look into the file
+
+$ blastn -query D3S1358.primers -db hsc3 -out d3s1358-vs-chr3.txt -task blastn-short
+
+$ less d3s1358-vs-chr3.txt # take a look into the file
+
+$ blastn -query D3S1358.primers -db hsc3 -out d3s1358-vs-chr3.tab -task blastn-short -outfmt 6
+
+$ less d3s1358-vs-chr3.tab # take a look into the file
+
+$ awk '$3==100 && $4>=19{print $1, $9, $10}' d3s1358-vs-chr3.tab 
+f-primer 27782182 27782200
+f-primer 45540843 45540825
+r-primer 45540713 45540732
+
+$ blastdbcmd -db hsc3 -entry all -range 45540713-45540843
+>:45540713-45540843 NC_000003.12 Homo sapiens chromosome 3, GRCh38.p14 Primary Assembly
+ATGAAATCAACAGAGGCTTGCATGTATCTATCTGTCTATCTATCTATCTATCTATCTATCTATCTATCTATCTATCTATC
+TATCTATCTATGAGACAGGGTCTTGCTCTGTCACCCAGATTGGACTGCAGT
+
+$ blastdbcmd -db hsc3 -entry all -range 45540713-45540843 | sed '1d' | sed 's/TCTA/ & /g' | egrep --color '(ATGAAATCAACAGAGGCTTGC|ACCCAGATTGGACTGCAGT)'
+ATGAAATCAACAGAGGCTTGCATGTA TCTA TCTG TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA TCTA TCTA  TCTA TGAGACAGGGTCTTGCTCTGTCACCCAGATTGGACTGCAGT
+
+
+
