@@ -51,5 +51,9 @@ TATCTATCTATGAGACAGGGTCTTGCTCTGTCACCCAGATTGGACTGCAGT
 $ blastdbcmd -db hsc3 -entry all -range 45540713-45540843 | sed '1d' | sed 's/TCTA/ & /g' | egrep --color '(ATGAAATCAACAGAGGCTTGC|ACCCAGATTGGACTGCAGT)'
 ATGAAATCAACAGAGGCTTGCATGTA TCTA TCTG TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA  TCTA TCTA TCTA  TCTA TGAGACAGGGTCTTGCTCTGTCACCCAGATTGGACTGCAGT
 
-
-
+# Chr 3 from other individuals or organisms
+efetch -db nuccore -id CM000553 -format fasta > hs-chr3-pongo.fasta
+efetch -db nuccore -id AP023463 -format fasta > hs-chr3-japanese.fasta
+efetch -db nuccore -id CM021570 -format fasta > hs-chr3-ashkenazi.fasta
+efetch -db nuccore -id CH003498 -format fasta > hs-chr3-venter.fasta
+efetch -db nuccore -id NC_000003 -format fasta > hs-chr3.fasta
