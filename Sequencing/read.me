@@ -1,0 +1,4 @@
+wget 'http://packages.seqan.de/mason2/mason2-2.0.9-Linux-x86_64.deb'
+sudo apt install ./mason2-2.0.9-Linux-x86_64.deb
+mason_simulator --ir puc18c.fasta --out sanger.fasta --fragment-mean-size 700 -n 10 --seq-technology sanger
+dotter puc18c.fasta sanger.fasta
