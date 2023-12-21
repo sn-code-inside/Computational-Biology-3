@@ -57,3 +57,45 @@ efetch -db nuccore -id AP023463 -format fasta > hs-chr3-japanese.fasta
 efetch -db nuccore -id CM021570 -format fasta > hs-chr3-ashkenazi.fasta
 efetch -db nuccore -id CH003498 -format fasta > hs-chr3-venter.fasta
 efetch -db nuccore -id NC_000003 -format fasta > hs-chr3.fasta
+
+# download all primer pairs and save as fasta
+# prerequisite: install pandoc
+$ pandoc -f html -t plain https://strbase-archive.nist.gov/PP16primers.htm | egrep  '(Pair |[ATGC]{10,})' | awk '{if (NR%3 == 1) {id=$1} else if (NR%3 == 2) {print ">f_"id; print $0} else if (NR%3 == 0) {print ">r_"id; print $0}}' | less
+
+# download all primer pairs and save as individual fasta files
+$ pandoc -f html -t plain https://strbase-archive.nist.gov/PP16primers.htm | egrep  '(Pair |[ATGC]{10,})' | awk '{if (NR % 3 == 1) {id=$1} else if (NR % 3 == 2) {print ">f_"id > id".fasta"; print $0 >> id".fasta"} else if (NR % 3 == 0) {print ">r_"id >> id".fasta"; print $0 >> id".fasta"}}'
+
+#################################
+######### CHROMOSOME 21 #########
+#################################
+############ D21S11 #############
+#################################
+
+# download chromosomes
+efetch -db nuccore -id CM000571 -format fasta > chr21-pongo.fasta
+efetch -db nuccore -id AP023481 -format fasta > chr21-japanese.fasta
+efetch -db nuccore -id CM021588 -format fasta > chr21-ashkenazi.fasta
+efetch -db nuccore -id CH003516 -format fasta > chr21-venter.fasta
+efetch -db nuccore -id NC_000021 -format fasta > chr21-ref.fasta
+
+# create BLAST databases
+for i in chr21*fasta; do base=$(basename $i .fasta); makeblastdb -in $i -dbtype nucl -out $base; done
+
+# BLAST primer and create tabular output
+for i in chr21*fasta; do base=$(basename $i .fasta); blastn -query D21S11.fasta -db $base -out $base.tab -task blastn-short -outfmt 6; done
+
+# create function to extract primer pairs
+primerpair() { awk '{if($1~/f_/ && $3==100){forward[NR]=$9}else if($1~/r_/ && $3==100){reverse[NR]=$9}}END{for(x in forward){for(y in reverse){z=forward[x]-reverse[y]; if(z<0){z=z*-1}; if(z<400){gsub(/\.tab/,"",FILENAME); print FILENAME, reverse[y],forward[x]}}}}' $1; }
+
+# use function to extract primer matches
+for i in chr21*tab; do primerpair $i; done
+
+# extract sequences
+for i in chr21*tab; do base=$(basename $i .tab); echo $i; primerpair $i | awk '{cmd="blastdbcmd -db "$1" -entry all -range "$3"-"$2" | sed '1d'"; system(cmd)}'; done
+
+# extract repeat length and highlight
+for i in chr21*tab; do base=$(basename $i .tab); echo $i; primerpair $i | awk '{cmd="blastdbcmd -db "$1" -entry all -range "$3"-"$2" | sed '1d'"; system(cmd)}' | grep TATC; done
+
+# extract repeat length and count
+for i in chr21*tab; do base=$(basename $i .tab); echo $i; primerpair $i | awk '{cmd="blastdbcmd -db "$1" -entry all -range "$3"-"$2" | sed '1d'"; system(cmd)}' | grep -o TATC | wc -l; done
+
