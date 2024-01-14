@@ -1,0 +1,26 @@
+#!/usr/bin/awk -f
+# Make executable with chmod u+x dotplot and run with ./dotplot
+BEGIN{
+  # Check if DNA sequences are provided as a parameter
+  if (ARGC != 3) {
+    print "Usage: " ARGV[0] " DNASeq1 DNASeq2"
+    exit 1
+  }
+  ORS="";
+  seq1=ARGV[1]
+  seq2=ARGV[2]
+  split(seq1,s1,""); split(seq2,s2,"")
+  print "   "seq1"\n"
+  for(x in s2){
+    print " "s2[x]" " 
+    for(y in s1){
+      if(s2[x]==s1[y]){
+        print "o"
+      }
+      else{
+        print " "
+      }
+    };
+    print "\n"
+  }
+}
