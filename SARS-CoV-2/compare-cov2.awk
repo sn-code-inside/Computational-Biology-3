@@ -1,27 +1,27 @@
 BEGIN{
-if(id2=="" || seq=="" || anno==""){
+if(id2=="" || seq=="" || ref==""){
   print "  Run as:"
-  print "    awk -f compare-cov2.awk -v seq=seqs.tab -v anno=annos.tab -v id1=ID1 -v id2=ID2"
+  print "  awk -f compare-cov2.awk -v seq=seqs.tab -v ref=ref.fasta -v id1=ID1 -v id2=ID2"
   print "  where seqs.tab is the sequence file in tab format and"
-  print "        annos.tab is the annotation file in tab format."
-  print "  If -v id1=... is omitted, the reference genome ID NC_045512.2 will be used." 
+  print "  ref.tab is the reference genome in tab format."
+  print "  If -v id1=... is omitted, the reference genome ID NC_045512 will be used." 
   exit}
 
 if(id1==""){id1="NC_045512"}
 
+while(getline < ref > 0){
+    num=gensub(/\..*/,"","g",$1); # remove accession version (.2)
+    id[num]=$1; place[num]="Wuhan"; date[num]="12/2019"; sequence[num]=$NF
+}
+
+FS="\t"
+
 while(getline < seq > 0){
-  if($1!="MT846012.1" && $2 ~ /^ATTAAA/){  # remove bad seqs
-    num=gensub(/\.[0-9]/,"","g",$1); # remove .2 oder so
-    sequence[num]=$2; id[num]=$1}
-    else{num=gensub(/\.[0-9]/,"","g",$1); removed=removed" "num}
-    }
-
-if(removed ~ id1 || removed ~ id2){print "ID did not pass filter!"; exit}
-
-while(getline < anno > 0){date[$1]=$3; place[$1]=$2}
+    num=gensub(/\..*/,"","g",$1); # remove accession version (.2)
+    id[num]=$1; place[num]=$2; date[num]=$3; sequence[num]=$4}
 
 if(id[id1] != "" && id[id2] != ""){
-  print "# "id[id1]" > "id[id2]" | "date[id1]" > "date[id2]" | "place[id1]" > "place[id2]
+  print "# Compared: "id[id1]" vs "id[id2]" | "date[id1]" vs "date[id2]" | "place[id1]" vs "place[id2]
   }
   else{print "ID not found!"; exit}
 
