@@ -1,0 +1,12 @@
+load =7DF4
+spacefill off; wireframe off
+cartoon
+select :A; color lightgray # ACE2
+select :C; color gray # Spike 2
+select :D; color darkgray # Spike 3
+select :B; color lightblue # Spike 1
+select 319-541:B; color blue # RBDomain
+select 437-508:B; color red # RBMotif
+# select 501:B,522:B,521:B,479:B,520:B # Mutations
+# spacefill 300
+# color yellow
