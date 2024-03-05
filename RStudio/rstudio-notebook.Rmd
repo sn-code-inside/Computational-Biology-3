@@ -1,0 +1,137 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{bash}
+pwd
+```
+
+```{r}
+a<-1:10
+length(a)
+b<-c(23,56,67:72,98,65) # Command c() -> concatenate
+length(b)
+plot(a,b)
+c<-seq(from=10,to=100,by=10)
+c
+points(a,c,col="red",pch=2)
+lines(a,c,col="blue")
+```
+
+```{r}
+a <- seq(from=1,to=100,by=5); 
+b <- 0; for (i in 1:length(a)) {b[i] <- i*i}; 
+r <- 0; for (i in 1:length(a)) {r[i] <- runif(1, -50, 50)}; 
+min(a); max(a)
+min(b+r); max(b+r)
+plot(13, 42, xlim=c(0,100), type="n", ylim=c(-30,430), xlab="Variable a", ylab="", main="Root and Random");
+points(a, b, col="blue", pch=1);
+points(a, b+r, col="red", pch=2, type="b");
+points(a, r, col="black", pch=3, type="l");
+legend(c(0,20),c(120,300), c("a", "a^2", "r"), pch=c(1,2,NA), lty=c(NA,1,1), col=c("blue", "red", "black"))
+```
+
+```{r}
+a <- c(1,2,3,4,5); b <- c(5,4,5,6,5)
+plot(a,b)
+identify(a, b, n=2, plot=TRUE, labels=c("1st\npoint", "2nd\npoint"))
+locator(5, type='l')
+```
+
+```{r}
+a <- seq(from=1,to=100,by=5); 
+b <- 0; for (i in 1:length(a)) {b[i] <- i*i}; 
+r <- 0; for (i in 1:length(a)) {r[i] <- runif(1, -50, 50)}; 
+dfabr<-data.frame(DataA=a, DataB=b, DataR=r)
+head(dfabr)
+fig <- plot_ly(data=dfabr, x=a)
+fig <- fig %>% add_trace(y = b, name = 'DataB',mode = 'lines+markers', type = 'scatter')
+fig <- fig %>% add_trace(y = r, name = 'DataR',mode = 'markers', type = 'scatter')
+fig
+```
+
+```{r}
+data<-read.table("https://github.com/awkologist/CompBiol3/raw/main/RStudio/gene-exprA-exprB.tab",header=TRUE,sep="\t")
+names(data)
+attach(data)
+plot(log2(exprA),log2(exprB),col="blue")
+```
+
+```{r}
+getwd()
+setwd("~/CompBiol3/RStudio")
+getwd()
+write.table(data, "output-data.csv", append=FALSE, col.names=TRUE, row.names=FALSE, quote=FALSE, sep=",")
+system("head -2 output-data.csv")
+write.table(data, "output-data.csv", append=FALSE, col.names=TRUE, row.names=FALSE, quote=TRUE, sep=",")
+system("head -2 output-data.csv")
+write.table(data, "output-data.csv", append=FALSE, col.names=TRUE, row.names=TRUE, quote=TRUE, sep=",")
+system("head -2 output-data.csv")
+write.table(exprA, "output-data.csv", append=FALSE, col.names=FALSE, row.names=FALSE, quote=FALSE, sep=",")
+system("head -2 output-data.csv")
+write.table(list(exprA,exprB), "output-data.csv" ,append=FALSE, col.names=FALSE, row.names=FALSE, quote=FALSE, sep=",")
+system("head -2 output-data.csv")
+```
+
+```{r}
+v<-array(c(11,21,31,12,22,32,13,23,33,14,24,34,15,25,35),dim=c(3,5))
+v
+v[2,]                                    # Row 2
+v[,3]                                    # Column 3
+ThreeD<-array(c(111,121,131,112,122,132,113,123,133,114,124,134,115,125,135,211,221,231,212,222,232,213,223,233,214,224,234,215,225,235),dim=c(3,5,2))
+ThreeD
+ThreeD[3,5,2]                            # Element in row 3, column 5, table 2
+ThreeD[3,,1]                             # Row 3 in table 1
+ThreeD[,4,2]                             # Column 4 in table 2
+ThreeD[c(1,3),,1]                        # Rows 1 and 3 in table 1
+matrix(data=c(11,21,12,22,13,23,14,24,15,25,16,26), nrow=2, ncol=6)
+```
+
+```{r}
+data<-read.table("gene-exprA-exprB.tab", header=TRUE, sep="\t") 
+data[1,]
+data[1,2]+1
+```
+
+```{r}
+xray<-list(ID=c("1ZDB","1FDS","3EKS"), Score=c(0.32,0.89,0.20))
+xray
+xray$ID                                  # Vector ID
+xray[1]                                  # Vector ID
+xray[[1]]                                # Vector ID
+xray$ID[2]                               # 2nd element 
+xray[[1]][2]                             # 2nd element
+names(xray)
+# attach(xray)
+ID                                       # Vector ID
+ID[1]                                    # 1st element 
+```
+
+```{r}
+data.frame(xray)
+```
+
+```{r}
+
+```
+
+```{r}
+a=0; b=0; c=0;
+for(i in exprA){if(i<500){a=a+1}; if(i>5000){b=b+1}else{c=c+1}}
+barplot(c(a,b,c),  names=c("<500",">5000","500-5000"), col=c("red","blue","green"),  yla="Frequency") 
+```
