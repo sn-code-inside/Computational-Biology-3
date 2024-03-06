@@ -135,3 +135,67 @@ a=0; b=0; c=0;
 for(i in exprA){if(i<500){a=a+1}; if(i>5000){b=b+1}else{c=c+1}}
 barplot(c(a,b,c),  names=c("<500",">5000","500-5000"), col=c("red","blue","green"),  yla="Frequency") 
 ```
+
+```{r}
+nostoc<-read.table("gene-exprA-exprB-len-gc.tab", header=TRUE, sep="\t")
+head(nostoc, n=3)
+summary(nostoc)
+boxplot(nostoc[2:5])
+```
+
+```{r}
+which(is.na(nostoc$len))
+nostoc[1109,]2
+```
+
+```{r echo=TRUE}
+pairs(nostoc[2:5],lower.panel=NULL)
+```
+
+```{r}
+nostoc.clean<-na.omit(nostoc[2:5])
+panel.pearson <- function(x, y, ...) {horizontal <- (par("usr")[1] + par("usr")[2]) / 2; vertical <- (par("usr")[3] + par("usr")[4]) / 2; text(horizontal, vertical, format(abs(cor(x,y)), digits=2))}
+pairs(nostoc.clean,lower.panel=panel.pearson)
+```
+
+```{r}
+system("awk 'BEGIN{for(i=1;i<=3;i++){print rand()}}'")
+system("awk 'BEGIN{for(i=1;i<=3;i++){print rand()}}'", intern=TRUE)
+zufall<-system("awk 'BEGIN{for(i=1;i<=50;i++){print rand()}}'", intern=TRUE)
+zufall<-as.numeric(zufall)
+x<-1:length(zufall)
+plot(x,zufall,xlab="",ylab="Random Number")                   # Plot 1
+abline(lm(zufall~x), col="red")
+lines(lowess(x,zufall), col="blue")
+hist(zufall,main="",xlab="Random Number")                     # Plot 2
+```
+
+```{R}
+anscombe<-read.table("http://www.hs-mittweida.de/wuenschi/data/media/compbiolbook/anscombe.tab", header=TRUE,sep="\t")
+attach(anscombe)
+par(mfrow=c(2,2))
+plot(ax1,ay1,xlim=c(4,18),ylim=c(3,12),col="blue")
+abline(lm(ay1~ax1))
+plot(ax2,ay2,xlim=c(4,18),ylim=c(3,12),col="blue")
+abline(lm(ay2~ax2))
+plot(ax3,ay3,xlim=c(4,18),ylim=c(3,12),col="blue")
+abline(lm(ay3~ax3))
+plot(ax4,ay4,xlim=c(4,18),ylim=c(3,12),col="blue")
+abline(lm(ay4~ax4))
+par(mfrow=c(1,1))
+```
+
+```{r}
+ecolik12 <- read.table("all-k12-id-gc.tab", header=FALSE, sep="\t")
+ecolio157 <- read.table("all-o157-id-gc.tab", header=FALSE, sep="\t")
+hist(ecolik12[[2]],main="E. coli K12",xlab="GC-Content [%]") 
+hist(ecolio157[[2]],main="E. coli O157:H7",xlab="GC-Content [%]")
+sd(ecolik12[[2]])
+sd(ecolio157[[2]])
+t.test(allk12[[2]],allo157[[2]])
+```
+
+```{r}
+matrix(c(994360,988925,1132739,1010405,702,578,936,322), ncol=2)
+chisq.test(matrix(c(994360,988925,1132739,1010405,702,578,936,322), ncol=2))
+```
