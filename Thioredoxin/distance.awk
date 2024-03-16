@@ -17,7 +17,7 @@ for (key1 in cys_x) {
       dy=cys_y[key1]-cys_y[key2]
       dz=cys_z[key1]-cys_z[key2]
       distance=sqrt(dx^2+dy^2+dz^2)
-      if (distance < 3 && distance != 0) {
+      if (distance < 3 && distance != 0 && key1<key2) {
         i++
         candidate[i]=key1"-"key2": "distance
       }
