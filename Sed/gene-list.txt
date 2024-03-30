@@ -1,0 +1,28 @@
+Energy metabolism
+   Glycolysis
+     slr0884: glyceraldehyde 3-phosphate dehydrogenase (gap1)
+     Init: 1147034 Term: 1148098 Length (aa): 354
+     slr0952: fructose-1,6-bisphosphatase (fbpII)
+     Init: 2022028 Term: 2023071 Length (aa): 347
+Photosynthesis and respiration
+   CO2 fixation
+     slr0009: ribulose bisphosphate carboxylase large (rbcL)
+     Init: 2478414 Term: 2479826 Length (aa): 470
+     slr0012: ribulose bisphosphate carboxylase small (rbcS)
+     Init: 2480477 Term: 2480818 Length (aa): 113
+   Photosystem I
+     slr0737: photosystem I subunit II (psaD)
+     Init: 126639 Term: 127064 Length (aa): 141
+     ssr0390: photosystem I subunit X (psaK)
+     Init: 156391 Term: 156651 Length (aa): 86
+     ssr2831: photosystem I subunit IV (psaE)
+     Init: 1982049 Term: 1982273 Length (aa): 74
+   Soluble electron carriers
+     sll0199: plastocyanin (petE)
+     Init: 2526207 Term: 2525827 Length (aa): 126
+     sll0248: flavodoxin (isiB)
+     Init: 1517171 Term: 1516659 Length (aa): 170
+     sll1796: cytochrome c553 (petJ)
+     Init: 846328 Term: 845966 Length (aa): 120
+     ssl0020: ferredoxin I (petF)
+     Init: 2485183 Term: 2484890 Length (aa): 97
