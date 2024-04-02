@@ -1,0 +1,4 @@
+Enzyme      Km
+Protease    2.5
+Hydrolase   0.4
+ATPase      1.2

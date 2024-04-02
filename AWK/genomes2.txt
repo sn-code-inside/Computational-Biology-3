@@ -1,0 +1,4 @@
+H. sapiens (human) - 3400000000 bp - 30000 genes
+A. thaliana (plant) - 100000000 bp - 25000 genes
+S. cerevisiae (yeast) - 12100000 bp - 6034 genes
+E. coli (bacteria) - 4670000 bp - 3237 genes
