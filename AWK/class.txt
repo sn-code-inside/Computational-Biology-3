@@ -1,0 +1,5 @@
+Protease = Regulation
+ATPase = Energy
+Hydrolase = Macro Molecules
+Hydrogenase = Energy
+Phosphatase = Regulation
