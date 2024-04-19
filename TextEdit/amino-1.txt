@@ -1,0 +1,4 @@
+These amino acids are polar:
+Serine
+Tyrosine
+Arginine
